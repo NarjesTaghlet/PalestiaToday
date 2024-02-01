@@ -1,0 +1,30 @@
+nav .navbar-nav .active-link {
+  color: #648c37 !important;
+}
+
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img.logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+}
+
+nav .navbar-nav .nav-link {
+  color: white !important;
+}
+
+nav .navbar-nav .active-link {
+  color: #648c37 !important;
+}
+
+nav .navbar-nav.ml-auto .nav-link {
+  color: white !important;
+}
+
+
+

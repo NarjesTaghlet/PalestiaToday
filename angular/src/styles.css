@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+/* Add this to your styles.css */
+.highlight {
+  background-color: rgb(81, 150, 88);
+  cursor: pointer;
+}
+/* styles.css */
+.bg-custom {
+  background-color: #8b2727
+  ; /* staamlou ay loun houni, ll navbar howa raw */
+}

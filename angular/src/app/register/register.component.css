@@ -1,0 +1,50 @@
+
+.container {
+    margin-top: 50px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #f8d7da;
+    border-bottom: 1px solid #f5c6cb;
+}
+
+.text-danger {
+    color: #711a22;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+}
+
+.btn-danger {
+    background-color: #6C1818  ;
+    border-color: #6C1818  ;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.register-link p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.register-link .register-now-link {
+    color: #581314;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link .register-now-link:hover {
+    text-decoration: underline;
+}

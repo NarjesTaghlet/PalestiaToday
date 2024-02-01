@@ -1,0 +1,49 @@
+<!-- quizz-tine.component.html -->
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-body text-center">
+      <img src="./../../assets/images/quizz.png" alt="Palestine Icon" class="icon">
+      <h2 class="card-title">Palestine Quiz</h2>
+
+      <div *ngIf="currentQuestionIndex < questions.length; else quizCompleted">
+        <div class="question-container mt-3">
+          <h4 class="question">{{ currentQuestion.question }}</h4>
+
+          <div class="form-check mt-3" *ngFor="let option of currentQuestion.options">
+            <div class="form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="answerOptions"
+                id="{{ option }}"
+                [(ngModel)]="selectedAnswer"
+                [value]="option"
+                required
+              />
+              <label class="form-check-label" for="{{ option }}">
+                {{ option }}
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn- mt-3" (click)="submitAnswer()" [disabled]="!selectedAnswer">Next</button>
+        </div>
+      </div>
+
+      <ng-template #quizCompleted>
+        <div class="text-center mt-5">
+          <h3>Congratulations!</h3>
+          <p>Your Score: {{ score }}/{{ questions.length }}</p>
+          <ng-container *ngIf="score === questions.length; else nonVictoryMessage">
+            <i class="fas fa-trophy fa-3x text-success"></i>
+            <p class="mt-3">Great job! You've answered all questions correctly.</p>
+          </ng-container>
+          <ng-template #nonVictoryMessage>
+            <i class="fas fa-sad-tear fa-3x text-danger"></i>
+            <p class="mt-3">Keep trying! You can improve your score next time.</p>
+          </ng-template>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

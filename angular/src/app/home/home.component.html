@@ -1,0 +1,73 @@
+<div class="home-container">
+  <header class="home-header">
+    <div class="header-overlay"></div>
+    <img src="./../../assets/images/pic.png" alt="Palestine Icon" class="icon">
+
+    <h1 class="site-title">Palestia Today</h1>
+    <h2 class="site-subtitle">Voices from the Heart of Palestine</h2>
+    <section class="description">
+      <p>
+        Welcome to Palestia Today, a space where untold stories unfold, capturing the essence of the ongoing conflict in Palestine. Explore real, uncensored narratives that resonate from the heart.
+      </p>
+    </section>
+  </header>
+
+  <section class="carousel-container">
+    <carousel [activeSlide]="activeSlideIndex">
+      <slide *ngFor="let article of articles; let i = index" (click)="openArticle(i)">
+        <img [src]="getImageForArticle(i)" class="card-img-top article-image" alt="Article Image">
+        <div class="carousel-caption" [class.active]="activeSlideIndex === i">
+          <h3>{{article.title}}</h3>
+          <p>{{getSummary(article.description)}}</p>
+        </div>
+      </slide>
+    </carousel>
+  </section>
+</div>
+
+
+<section class="testimonials">
+  <h3 class="section-title">Testimonials of Palestia</h3>
+  <div class="testimonial-container">
+
+    <div class="testimonial-card">
+      <img src="assets/images/mariem.png" alt="Person Name" class="testimonial-image">
+      <p>"Palestia Today has opened my eyes to the realities of life in this region. The stories are heartfelt and genuine."</p>
+      <span>- Mariem Makni, Journalist</span>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="assets/images/jess.jpg" alt="Person Name" class="testimonial-image">
+      <p>"This platform is a beacon of truth. It shines a light on stories that the world needs to hear."</p>
+      <span>- Narjes Taghlet, Activist</span>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="assets/images/mouna.png" alt="Person Name" class="testimonial-image">
+      <p>"I'm deeply moved by the narratives shared here. They are powerful, poignant, and profoundly important."</p>
+      <span>- Mouna Ben Zaied, Educator</span>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="assets/images/ons.png" alt="Person Name" class="testimonial-image">
+      <p>"Palestia Today shares stories that are heartfelt and genuine and most importantly uncensored, thank you to the team behind it."</p>
+      <span>- Ons Ouhibi, Educator</span>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="assets/images/kila.png" alt="Person Name" class="testimonial-image">
+      <p>"I can't believe we as a society have been blind to everything happening in Palestine"</p>
+      <span>- Mariem Kilani, Educator</span>
+    </div>
+
+
+  </div>
+</section>
+<button class="contact-button" (click)="openContactUs()">Contact Us</button>
+
+<button id="backToTop" *ngIf="showBackToTopButton" (click)="scrollToTop()">Back to Top</button>
+
+<footer class="site-footer">
+  <p>© 2024 Palestia Today. All rights reserved.</p>
+</footer>
+

@@ -1,0 +1,107 @@
+.about-us-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px; /* Increased gap */
+}
+
+.rotating-card-container {
+  perspective: 1500px;
+  width: 400px; /* Increased width */
+  margin: 20px; /* Added margin for spacing */
+}
+
+.rotating-card {
+  width: 100%;
+  height: 300px; /* Increased height */
+  transform-style: preserve-3d;
+  transition: transform 1s;
+  cursor: pointer;
+}
+
+.card-side {
+  backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 15px; /* Rounded borders */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Added shadow for depth */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  backface-visibility: hidden;
+}
+
+.front {
+  background-image: linear-gradient(to right, #692525, #692525); /* Shiny gradient background */
+  color: #fff; /* White text for better contrast */
+}
+
+.back {
+  background-color: #f8f8f8;
+  transform: rotateY(180deg);
+}
+
+.rotating-card-container:hover .rotating-card {
+  transform: rotateY(180deg);
+}
+
+/* Text and content styling */
+.card-side h2, .card-side h3 {
+  margin-bottom: 15px;
+}
+
+.card-side p {
+  font-size: 1.1em; /* Slightly larger text */
+  text-align: justify;
+}
+
+/* Position the button at the bottom center */
+.card-side .btn-redirect {
+  position: absolute;
+  bottom: 20px; /* Adjust the distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .about-us-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rotating-card-container {
+    width: 90%; /* Adjust width for mobile */
+    margin-bottom: 30px;
+  }
+
+  .rotating-card {
+    height: auto; /* Adjust height for mobile */
+  }
+
+  /* Adjust button position for mobile */
+  .card-side .btn-redirect {
+    bottom: 10px;
+  }
+}
+
+/* Style for the redirection button */
+.btn-redirect {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #ae5a5a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* text-align: center; Center align the text in the button */
+}
+
+.btn-redirect:hover {
+  background-color: #7d2f2f;
+}

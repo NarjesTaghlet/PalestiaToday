@@ -1,0 +1,40 @@
+.is-invalid {
+  border: 1px solid red;
+}
+
+.error {
+  color: rgb(162, 45, 45);
+}
+.card.login-card .icon {
+  width: 66px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+
+.register-link p {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.mt-3 {
+  color: #3d0a0d;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mt-3 a{
+  color: #a6464c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link .register-now-link:hover {
+  text-decoration: underline;
+}
+
+
+.error-border {
+  border: 2px solid red;
+}

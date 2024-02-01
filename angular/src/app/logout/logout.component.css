@@ -1,0 +1,21 @@
+.container {
+  margin-top: 50px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}

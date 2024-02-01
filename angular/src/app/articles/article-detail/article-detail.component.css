@@ -1,0 +1,104 @@
+/* Add these styles to your CSS or SCSS file */
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  color: #333;
+}
+
+.card-text {
+  color: #555;
+}
+
+.btn-like,
+.btn-dislike {
+  margin-right: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-like:hover,
+.btn-dislike:hover {
+  background-color: #45a049;
+}
+
+.liked {
+  color: #4CAF50;
+}
+
+.disliked {
+  color: #d9534f;
+}
+
+.btn-dislike {
+  background-color: #d9534f;
+}
+
+.btn-dislike:hover {
+  background-color: #c9302c;
+}
+
+
+
+.list-group-item {
+  margin-bottom: 5px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+
+.star.selected i.fa-star {
+  color: yellow; /* or the color you use for selected stars */
+  transition: transform 0.3s ease; /* Add a smooth scale transition for selected stars */
+}
+
+.star.selected:hover i.fa-star {
+  transform: scale(1.2); /* Enlarge the selected star on hover */
+}
+
+
+.star-rating {
+  display: flex;
+  font-size: 1.5em; /* Adjust the font size as needed */
+}
+
+
+.star:not(.selected):hover {
+  color: grey; /* Lighter shade of gold for hover state */
+}
+
+
+
+
+/* Add this to your CSS or SCSS file */
+.btn-show-more,
+.btn-show-less {
+  cursor: pointer;
+  color: #c9302c;
+  text-decoration: underline;
+  margin-top: 10px;
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.btn-show-more:hover,
+.btn-show-less:hover {
+  color: #c9302c;
+}
+
+/* Additional styles */
+.btn-show-more {
+  margin-right: 10px;
+}

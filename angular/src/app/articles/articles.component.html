@@ -1,0 +1,58 @@
+<div class="container my-5">
+  <!-- Logo and header -->
+  <div class="text-center mb-5">
+    <img src="./../../assets/images/logo-removebg-preview.png" alt="Blog Logo" class="blog-logo" />
+    <h1 class="blog-title">Palestine Chronicles</h1>
+    <h2 class="latest-articles-title">Latest Articles on Palestine</h2>
+  </div>
+  <!-- Display the card if showCard is true -->
+  <div *ngIf="showCard" class="card mt-5 alert-card">
+    <div class="card-body">
+      <div class="alert-icon">
+        <img src="./../../assets/images/warning.png" alt="Warning Icon">
+      </div>
+      <div class="alert-message">
+        <p class="alert-text">To access this exclusive content, you need to be logged in.</p>
+        <p class="alert-text">Please subscribe to continue.</p>
+      </div>
+      <button (click)="redirectToLogin()" class="btn btn-login">Log In</button>
+    </div>
+  </div>
+
+
+
+  <!-- Keyword Filter -->
+
+  <div class="row mb-3">
+    <div class="col-md-6 mx-auto">
+      <div class="d-flex align-items-center">
+        <input type="text" class="form-control me-3" placeholder="Filter by keyword" [(ngModel)]="keywordFilter" #searchInput (input)="searchArticles(searchInput.value)" />
+        <!--<button class="btn btn-secondary" (click)="toggleSortOrder()">Filter by date</button>-->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Articles -->
+    <div *ngFor="let article of filteredArticles | paginate :{itemsPerPage:6,currentPage :p ,totalItems : totallength}; let i = index" class="col-lg-4 col-md-6 col-sm-12 mb-4">
+      <div class="card h-100 article-card">
+        <img [src]="getImageForArticle(i)" class="card-img-top article-image" alt="Article Image">
+        <div class="card-body">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <p class="card-text">{{getSummary(article.description)}}</p>
+
+          <!-- <a href="#" class="btn btn-read-more">Read More</a> -->
+          <button  (click)="viewArticleDetail(article.id)" class="btn btn-read-more">Read More</button>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Published on {{ article.createdAt | date:'mediumDate' }}</small>
+          <br>
+          <small class="text-muted">Updated on {{ article.updatedAt | date:'mediumDate' }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="p = $event"  class="custom-pagination"></pagination-controls>
+</div>
+
+
+

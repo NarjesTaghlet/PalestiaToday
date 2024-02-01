@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <app-liste-cv (selectedpersonne)="selectPersonne($event)"  [personnes]="personnes"></app-liste-cv>
+  </div>
+
+  <div class="col-md-6 col-sm-12">
+    <app-detail-cv *ngIf = "selectedPersonne" [personne]="selectedPersonne"></app-detail-cv>
+  </div>
+</div>
+
+<div class="row higher-z-index">
+  <app-embauche> </app-embauche>
+</div>

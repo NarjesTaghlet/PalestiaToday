@@ -1,0 +1,109 @@
+
+
+
+
+
+<div class="container-fluid">
+  <!-- Main content -->
+  <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+    <img src="./../../assets/images/dashboard.png" alt="Dash Icon" class="icon mx-auto d-block">
+
+    <!-- User Management Section -->
+    <section class="my-4 user-management">
+      <h2><i class="fas fa-user"></i> User Management </h2>
+      <input type="text" [(ngModel)]="searchText" #searchInput placeholder="Search users..." class="form-control my-3" (input)="searchUser(searchInput.value)">
+      <table class="table table-hover">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" style="padding-left: 20px;">Username</th>
+          <th scope="col" style="padding-left: 20px;">Email</th>
+          <th scope="col" style="padding-left: 20px;">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of filteredUsers.slice((currentPage - 1) * pageSize, currentPage * pageSize)">
+          <td>{{ user.id }}</td>
+          <td style="padding-left: 20px;">{{ user.username }}</td>
+          <td style="padding-left: 20px;">{{ user.email }}</td>
+          <td style="padding-left: 20px;">
+            <button  *ngIf="!(user.role === 'admin')" class="btn btn-danger" (click)="deleteUser(user.id)">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <!-- Pagination Controls -->
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item" *ngFor="let page of pages" (click)="changePage(page)">
+            <a class="page-link">{{ page }}</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+
+
+    <!-- Article Management Section -->
+    <section class="my-4 user-management">
+      <h2><i class="fas fa-user"></i> Article Management </h2>
+
+      <table class="table table-hover">
+        <thead class="thead-light">
+        <tr>
+        <tr>
+
+          <th scope="col" style="padding-left: 50px;">Article</th>
+          <th scope="col" style="padding-left: 20px;">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let deletedarticle of DeletedArticles">
+          <td>{{ deletedarticle.title }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="RestoreArticle(deletedarticle.id)">
+              <i class="fas fa-undo-alt"></i> Restore
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <section class="my-4 article-analytics">
+      <h3><i class="fas fa-chart-bar"></i> Article Interaction Analytics </h3>
+      <input type="text" [(ngModel)]="searchTextArticles" #searchInputArticles placeholder="Search articles..." class="form-control my-3" (input)="searchArticles(searchInputArticles.value)">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let article of filteredArticles.slice((currentPage2 - 1) * pageSize2, currentPage2 * pageSize2); let i = index">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h4 class="card-title">{{ article.title }}</h4>
+              <div class="stars">
+                  <span *ngFor="let star of getStarsArray(article.gnote)">
+                    <i class="fa" [ngClass]="star === 'filled' ? 'fa-star' : 'fa-star-o'"></i>
+                  </span>
+              </div>
+              <div class="progress-container mb-2">
+                <div class="progress-bar" [ngStyle]="{'width': article.likePercentage + '%'}"></div>
+              </div>
+              <span>{{ article.likePercentage }}% Likes</span>
+              <div class="progress-container">
+                <div class="progress-bar dislike" [ngStyle]="{'width': article.dislikePercentage + '%'}"></div>
+              </div>
+              <span>{{ article.dislikePercentage }}% Dislikes</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item" *ngFor="let page of pages2" (click)="changePage2(page)">
+            <a class="page-link">{{ page }}</a>
+          </li>
+        </ul>
+      </nav>
+    </section>
+  </main>
+</div>

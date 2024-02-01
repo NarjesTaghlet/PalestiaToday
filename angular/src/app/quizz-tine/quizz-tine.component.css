@@ -1,0 +1,36 @@
+.card {
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease-in-out;
+
+}
+.card:hover {
+  transform: scale(1.05);
+}
+
+.question-container {
+  background-color: #f9f6f6;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: #283618;
+  border-color: #283618;
+}
+
+.btn-primary:hover {
+  background-color: #606C38;
+  border-color: #606C38;
+}
+
+
+.card-content {
+  flex: 1;
+  padding: 20px;
+}
