@@ -23,19 +23,15 @@ constructor(
 }
   async Signup(datauser : RegisterUserDto) : Promise<User>
   {
-    //const {username,password,email} =datauser
-    //const user = new User()
     const user = this.UserRepository.create({
       ...datauser
     })
 
-    //il faut creer un salt (password salting a technique to protect passwords stored in databases by adding a string of 32 or more characters and then hashing them)
+    //il faut creer un salt (password salting is a technique to protect passwords stored in databases by adding a string of 32 or more characters and then hashing them)
 
     user.salt = await bcrypt.genSalt(); // genSalt est asynchrone
     user.password=await bcrypt.hash(user.password,user.salt);
-    //sauvegarder notre user
-
-
+     
     user.role=Role_userEnum.ABONNEE;
     try{
       await this.UserRepository.save(user);
@@ -47,21 +43,15 @@ constructor(
   }
 
   async login(credentials :LoginCredentialsDto) {
-
-//recuperer le login credentials (username et passwor)
     const {username,password} = credentials ;
-
-    console.log(credentials);
     //verifier si c est le useer correspopndant
      const utilisateur = await this.UserRepository.createQueryBuilder("User")
          .where("User.username = :username or User.email = :username",{username}).getOne()
-    //console.log("hi")
-    //console.log(utilisateur)
+
     if (!utilisateur){
       //si nn declencher erreur
       throw new  NotFoundException("username ou email erroné ! , veuillez vérifier svp");
     }
-    //si oui =$c bon
     //si oui , verifie que mdp correct ou nn
     const hashedPassword =await bcrypt.hash(password,utilisateur.salt);
     if(hashedPassword === utilisateur.password)
@@ -82,20 +72,8 @@ constructor(
     }
   }
 
-  /*async ajouter_article(article : AddArticleDto, user : User) : Promise<Article>{
-
-  if (user.role== Role_userEnum.ADMIN){
-    return await this.ArticleService.create(article)
-    console.log("réussie")
-
-  }else {
-    throw new UnauthorizedException("vous n'avez pas le droit")
-  }
-  }
-*/
 
   async getUserById(id: number): Promise<User[]> {
-    console.log(await this.UserRepository.find({ where: { id } }))
     return await this.UserRepository.find({ where: { id } });
 
   }
