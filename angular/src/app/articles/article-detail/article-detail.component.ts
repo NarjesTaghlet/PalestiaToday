@@ -258,12 +258,14 @@ export class ArticleDetailComponent implements OnInit {
   }
 
   private processComments(data: any[]): string[] {
-    return data.map(comment => {
+    const comments = data.map(comment => {
       const username = comment.username;
       return `${username}: ${comment.commentaire}`;
     });
-  }
 
+    // Inverser l'ordre pour que le dernier commentaire soit le premier
+    return comments.reverse();
+  }
 
   loadMoreComments() {
     this.commentsToShow += 3;
