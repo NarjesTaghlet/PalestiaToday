@@ -32,7 +32,8 @@ export class ArticleDetailComponent implements OnInit {
   private commentsSubject = new Subject<string[]>();
   comments$ = this.commentsSubject.asObservable();
 
-  private yourComponentSubscription: Subscription | undefined;
+    private CommentSubscription: Subscription | undefined;
+
 
 
   constructor(
@@ -48,7 +49,7 @@ export class ArticleDetailComponent implements OnInit {
     this.article = {likes: 0, dislikes: 0};
     const articleIdParam = this.articleIdParam;
 
-    this.yourComponentSubscription = this.comments$.subscribe(
+    this.CommentSubscription = this.comments$.subscribe(
       comments => {
         this.comments = comments;
       }
@@ -351,8 +352,8 @@ export class ArticleDetailComponent implements OnInit {
 
 
   ngOnDestroy() {
-    if (this.yourComponentSubscription) {
-      this.yourComponentSubscription.unsubscribe();
+    if (this.CommentSubscription) {
+      this.CommentSubscription.unsubscribe();
     }
   }
 }
