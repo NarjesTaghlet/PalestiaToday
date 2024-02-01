@@ -20,7 +20,7 @@ Our project provides a centralized source of articles and news about the ongoing
 - **Admin Contact:** Easy access for feedback and queries.
 
 ![image](angular/src/assets/images/articles.png)
-![image](angular/src/assets/images/dashboard.png)
+![image](angular/src/assets/images/dashboards.png)
 
 
 ## Getting Started
