@@ -23,19 +23,20 @@ export class ArticleController {
   }
 
 
-  @Get()
-  findAll() {
-    return this.articleService.getArticles();
+  @Get('restore/:id')
+  restore(@Param('id') id : string) {
+   // return this.articleService.restore(+id);
+   return this.articleService.restoreArticle(+id);
   }
 
   @Get(':id')
   findById(@Param('id') id : string){
     return this.articleService.findArticleById(+id);
   }
-  @Get('restore/:id')
-  restore(@Param('id') id : string) {
-   // return this.articleService.restore(+id);
-   return this.articleService.restoreArticle(+id);
+
+  @Get()
+  findAll() {
+    return this.articleService.getArticles();
   }
 
 

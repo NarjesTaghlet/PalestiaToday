@@ -13,10 +13,6 @@ export class InteractionarticleController {
     return this.interactionarticleService.create(createInteractionarticleDto);
   }
 
-  @Get()
-  findAll() {
-    return this.interactionarticleService.findAll();
-  }
 
   @Get('reaction/:idArticle/:idUser')
   getReaction(@Param('idArticle') idArticle: number, @Param('idUser') idUser: number,) {
@@ -73,10 +69,15 @@ export class InteractionarticleController {
     return this.interactionarticleService.getTotalComments();
   }
 
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.interactionarticleService.findOne(+id);
+  }
+
+
+  @Get()
+  findAll() {
+    return this.interactionarticleService.findAll();
   }
 
   @Patch(':id')

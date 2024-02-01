@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ArticleService} from "../../services/article.service";
 import {AuthService} from "../../services/auth.service";
 import {ToastrService} from "ngx-toastr";
-import {forkJoin, Subscription} from "rxjs";
+import {forkJoin, Subject, Subscription} from "rxjs";
 import {Reaction} from "../../Model/reaction";
 import {Article} from "../../Model/article";
 
@@ -13,34 +13,46 @@ import {Article} from "../../Model/article";
     styleUrls: ['./article-detail.component.css']
 })
 export class ArticleDetailComponent implements OnInit {
-    article: any;
-    newComment: string = '';
-    comments: string[] = []; // Array to store comments
-    userRating: number = 5;
-    selectedRating: number = 0;
-    commentsToShow :number =3 ;
-    isModifying = false; // Boolean variable to track whether modification mode is active
-    //like section
-    hasLiked: boolean = false;
-    hasDisliked: boolean = false;
+  article: any;
+  newComment: string = '';
+  comments: string[] = []; // Array to store comments
+  userRating: number = 5;
+  selectedRating: number = 0;
+  commentsToShow: number = 3;
+  isModifying = false; // Boolean variable to track whether modification mode is active
+  //like section
+  hasLiked: boolean = false;
+  hasDisliked: boolean = false;
 
 
-    articleIdParam = this.route.snapshot.paramMap.get('id');
-     user = this.authservice.getUser(this.authservice.getToken());
+  articleIdParam = this.route.snapshot.paramMap.get('id');
+  user = this.authservice.getUser(this.authservice.getToken());
 
 
-    constructor(
-        private route: ActivatedRoute,
-        private articleService: ArticleService,
-        private router: Router,
-        public authservice : AuthService,
-        private toastr : ToastrService,
+  private commentsSubject = new Subject<string[]>();
+  comments$ = this.commentsSubject.asObservable();
 
-    ) {}
+  private yourComponentSubscription: Subscription | undefined;
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private articleService: ArticleService,
+    private router: Router,
+    public authservice: AuthService,
+    private toastr: ToastrService,
+  ) {
+  }
 
   ngOnInit(): void {
-    this.article = { likes: 0, dislikes: 0 };
+    this.article = {likes: 0, dislikes: 0};
     const articleIdParam = this.articleIdParam;
+
+    this.yourComponentSubscription = this.comments$.subscribe(
+      comments => {
+        this.comments = comments;
+      }
+    );
     this.getComments();
 
     if (articleIdParam) {
@@ -49,21 +61,21 @@ export class ArticleDetailComponent implements OnInit {
       //console.log(this.authService.getToken());
 
       this.articleService.getLikes(articleId).subscribe(
-        (response) =>{
-          this.article.likes = response ;
+        (response) => {
+          this.article.likes = response;
         }
       )
 
       this.articleService.getDislikes(articleId).subscribe(
-        (response) =>{
-          this.article.dislikes=response;
+        (response) => {
+          this.article.dislikes = response;
         }
       )
       ////////////////NOTE//////////////////
-      if(user && articleIdParam){
+      if (user && articleIdParam) {
         this.checkUserReaction(articleId, user.id);
-        const idUser = user.id ;
-        this.articleService.getNote(+articleIdParam,+idUser).subscribe(
+        const idUser = user.id;
+        this.articleService.getNote(+articleIdParam, +idUser).subscribe(
           (note) => {
             this.userRating = note.length ? note[0].note : 0;
             this.selectedRating = this.userRating;
@@ -97,7 +109,8 @@ export class ArticleDetailComponent implements OnInit {
       }
     }
   }
-/**************************** Like/Dislike Section *************************/
+
+  /**************************** Like/Dislike Section *************************/
 
   toggleLike1() {
 
@@ -206,35 +219,36 @@ export class ArticleDetailComponent implements OnInit {
       }
     );
   }
+
   /************************ Comment Section *************************/
   addComment(): void {
-      const articleIdParam = this.articleIdParam;
-      const user = this.user ;
-      console.log("ena user " , user)
-      if(user && articleIdParam){
-       const idUser = user.id ;
-        this.articleService.addcomment(this.newComment,+articleIdParam,+idUser).subscribe(
-          (response) =>{
-            this.toastr.success("commentaire ajouté avec succès");
-            this.getComments()
-          },
-          (error)=>{
-            this.toastr.error("Erreur lors de l'ajout");
-          }
-        );
-      }
-      this.newComment = '';
-      //this.getComments()
+    const articleIdParam = this.articleIdParam;
+    const user = this.user;
+    console.log("ena user ", user)
+    if (user && articleIdParam) {
+      const idUser = user.id;
+      this.articleService.addcomment(this.newComment, +articleIdParam, +idUser).subscribe(
+        (response) => {
+          this.toastr.success("commentaire ajouté avec succès");
+          this.getComments()
+        },
+        (error) => {
+          this.toastr.error("Erreur lors de l'ajout");
+        }
+      );
+    }
+    this.newComment = '';
+    //this.getComments()
   }
-  getComments() {
-    const articleIdParam = this.route.snapshot.paramMap.get('id');
 
+
+  getComments() {
+    const articleIdParam = this.articleIdParam;
     if (articleIdParam) {
-      this.comments =[];
       this.articleService.getComments(+articleIdParam).subscribe(
         (data) => {
-          //  processing comments sequentially
-          this.processCommentsOnebyOne(data, 0);
+          const comments = this.processComments(data);
+          this.commentsSubject.next(comments);
         },
         (error) => {
           this.toastr.error("Erreur getting comments");
@@ -243,23 +257,22 @@ export class ArticleDetailComponent implements OnInit {
     }
   }
 
-  processCommentsOnebyOne(data: any[], index: number) {
-    if (index < data.length) {
-      const comment = data[index];
-      const username = comment.username
-      const commentText = ` ${username} :  ${comment.commentaire}`;
-      this.comments.unshift(commentText);
-      // Process the next comment
-      this.processCommentsOnebyOne(data, index + 1);
-    }
+  private processComments(data: any[]): string[] {
+    return data.map(comment => {
+      const username = comment.username;
+      return `${username}: ${comment.commentaire}`;
+    });
   }
 
+
   loadMoreComments() {
-    this.commentsToShow  +=3;
+    this.commentsToShow += 3;
   }
+
   showLessComments() {
     this.commentsToShow = 3;
   }
+
 
 
   /**************** Rating SECTION **********************/
@@ -288,6 +301,7 @@ export class ArticleDetailComponent implements OnInit {
       );
     }
   }
+
   /*************** Article Section *********************/
 
   modifyArticle(): void {
@@ -296,21 +310,23 @@ export class ArticleDetailComponent implements OnInit {
 
   saveModification(): void {
     const articleIdParam = this.articleIdParam;
-    if(articleIdParam){
-    this.articleService.ModifyArticle(+articleIdParam,this.article.title,this.article.description).subscribe(
-      (response)=>{
-        this.toastr.success("modified successfully")
-      },
-      (error)=>{
-        console.log("erreur")
-      }
-    )
-  }
+    if (articleIdParam) {
+      this.articleService.ModifyArticle(+articleIdParam, this.article.title, this.article.description).subscribe(
+        (response) => {
+          this.toastr.success("modified successfully")
+        },
+        (error) => {
+          console.log("erreur")
+        }
+      )
+    }
     this.isModifying = false;
   }
+
   cancelModification(): void {
     this.isModifying = false;
   }
+
   deleteArticle() {
     const articleIdParam = this.route.snapshot.paramMap.get('id');
     if (articleIdParam) {
@@ -328,5 +344,15 @@ export class ArticleDetailComponent implements OnInit {
 
     }
   }
-    protected readonly AuthService = AuthService;
+
+  protected readonly AuthService = AuthService;
+
+
+  ngOnDestroy() {
+    if (this.yourComponentSubscription) {
+      this.yourComponentSubscription.unsubscribe();
+    }
+  }
 }
+
+
