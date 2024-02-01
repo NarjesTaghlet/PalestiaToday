@@ -26,19 +26,8 @@ export class AuthService {
     user! : User | null ;
 
 
-
-    /* Login(username: string, password: string): Observable<any> {
-       // Implement your login logic here
-       // If successful, update the isLoggedIn BehaviorSubject
-         console.log("Login successful, isLoggedIn set to true");
-         return this.http.post<any>(${this.apiUrl}/user/login,{username , password})
-
-     }
-     */
-
-
     login(credentials: { username: string; password: string }): Observable<any> {
-        console.log(credentials)
+       
         return this.http.post<any>(`${this.apiUrl}/user/login`, credentials)
         /*.pipe(
           tap((response: any) => {
@@ -55,17 +44,13 @@ export class AuthService {
 
     getUser(token: string):User | null{
         if (!token) {
-            //console.log("erreur")
             return null;
         }
-        // console.log("user user user")
-        // console.log(JSON.parse(atob(token.split('.')[1])) as User)
         return JSON.parse(atob(token.split('.')[1])) as User;
     }
 
 
     getUserbyId(idUser : number):Observable<any>{
-     //console.log("ena f getusername")
       return this.http.get<any>(`${this.apiUrl}/user/${idUser}`);
     }
 
@@ -77,8 +62,6 @@ export class AuthService {
         if (!access_token) {return '';
 
         }
-        //console.log("hello ena access_token");
-        //console.log(access_token)
         return  access_token;
 
     }
@@ -93,21 +76,6 @@ export class AuthService {
 
     }
 
-
-
-    /*isAuthenticated(): boolean {
-      return this.isLoggedIn.value;
-    }
-  */
-    // Méthode pour vérifier si l'utilisateur est connecté
-    // isAuthenticated(): boolean {
-    //   // Vérifiez si le token est présent dans le stockage local
-    //   const storedToken = localStorage.getItem('token');
-    //   //(!!) pour convertir la valeur stockée dans la variable storedToken en un booléen.
-    //     this. isLoggedIn.next(!!storedToken);
-    //     return !!storedToken ;
-
-    // }
     isAdmin() {
         const token =this.getToken();
         const user = this.getUser(token);
@@ -115,27 +83,6 @@ export class AuthService {
 
     }
 
-  isAdmin1(id: number): Observable<boolean> {
-    return this.getUserbyId(id).pipe(
-      map(user => user.role === 'admin')
-    );
-  }
-
-  isAdmin2(id: number): Observable<boolean> {
-    return this.getUserbyId(id).pipe(
-      switchMap(user => {
-        if (user && user.role === 'admin') {
-          return of(true);
-        } else {
-          return of(false);
-        }
-      })
-    );
-  }
-
-
-
-
-
+ 
 
 }
