@@ -26,7 +26,7 @@
             </div>
           </div>
 
-          <button class="btn btn- mt-3" (click)="submitAnswer()" [disabled]="!selectedAnswer">Next</button>
+          <button class="btn btn-primary mt-3" (click)="submitAnswer()" [disabled]="!selectedAnswer">Next</button>
         </div>
       </div>
 
@@ -42,8 +42,23 @@
             <i class="fas fa-sad-tear fa-3x text-danger"></i>
             <p class="mt-3">Keep trying! You can improve your score next time.</p>
           </ng-template>
+
+          <!-- Display Correct Answers -->
+          <div class="mt-4">
+            <h4>Review Your Answers</h4>
+            <div *ngFor="let answer of userAnswers">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Question: {{ answer.question }}</h5>
+                  <p class="card-text">Your Answer: <span [ngClass]="{'text-success': answer.selectedAnswer === answer.correctAnswer, 'text-danger': answer.selectedAnswer !== answer.correctAnswer}">{{ answer.selectedAnswer }}</span></p>
+                  <p class="card-text" *ngIf="answer.selectedAnswer !== answer.correctAnswer">Correct Answer: <span class="text-success">{{ answer.correctAnswer }}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </ng-template>
+
     </div>
   </div>
 </div>
