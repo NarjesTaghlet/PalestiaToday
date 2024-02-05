@@ -308,6 +308,26 @@ export class InteractionarticleService {
   }
 
 
+  async getTotalLikes(idArticle: number): Promise<number> {
+    const interactions = await this.InteractionRepository.find({
+      where: { 
+        article: { id: idArticle }, 
+        reaction: ReactionType.LIKE
+      }
+    });
+    return interactions.length; // Total number of likes
+  }
+  
+  async getTotalDislikes(idArticle: number): Promise<number> {
+    const interactions = await this.InteractionRepository.find({
+      where: { 
+        article: { id: idArticle }, 
+        reaction: ReactionType.DISLIKE
+      }
+    });
+    return interactions.length; // Total number of dislikes
+  }
+
  async getLikes(): Promise<number> {
     const interactions = await this.InteractionRepository.find({
       where: {
@@ -316,8 +336,6 @@ export class InteractionarticleService {
     });
     return interactions.length; 
   }
-
-
 
   async getDislikes(): Promise<number> {
     const interactions = await this.InteractionRepository.find({
